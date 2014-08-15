@@ -13,33 +13,27 @@ public class RandomUtils {
     public static final String LOWER_CASE_LETTERS  = "abcdefghijklmnopqrstuvwxyz";
 
     /**
-     * get a fixed-length random string, its a mixture of uppercase, lowercase letters and numbers
-     *
+     * 随即获取给定长度的字符串，数字+字母形式+大小写敏感
      * @param length
      * @return
-     * @see RandomUtils#getRandom(String source, int length)
      */
     public static String getRandomNumbersAndLetters(int length) {
         return getRandom(NUMBERS_AND_LETTERS, length);
     }
 
     /**
-     * get a fixed-length random string, its a mixture of numbers
-     *
+     * 获取给定长度的随机数
      * @param length
      * @return
-     * @see RandomUtils#getRandom(String source, int length)
      */
     public static String getRandomNumbers(int length) {
         return getRandom(NUMBERS, length);
     }
 
     /**
-     * get a fixed-length random string, its a mixture of uppercase and lowercase letters
-     *
+     * 获取给定长度的随即字符串，字母形式+大小写敏感
      * @param length
      * @return
-     * @see RandomUtils#getRandom(String source, int length)
      */
     public static String getRandomLetters(int length) {
         return getRandom(LETTERS, length);

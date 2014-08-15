@@ -7,8 +7,8 @@ import java.io.*;
  */
 public class SerializeUtils {
     /**
-     * deserialization from file
      *
+     * 反序列化文件生成java对象
      * @param filePath
      * @return
      * @throws RuntimeException if an error occurs
@@ -38,7 +38,7 @@ public class SerializeUtils {
     }
 
     /**
-     * serialize to file
+     * 把java对象序列化进文件
      *
      * @param filePath
      * @param obj
