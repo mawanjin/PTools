@@ -14,44 +14,25 @@ import java.util.regex.Pattern;
  */
 public class StringUtils {
     /**
-     * is null or its length is 0 or it is made by space
-     *
-     * <pre>
-     * isBlank(null) = true;
-     * isBlank(&quot;&quot;) = true;
-     * isBlank(&quot;  &quot;) = true;
-     * isBlank(&quot;a&quot;) = false;
-     * isBlank(&quot;a &quot;) = false;
-     * isBlank(&quot; a&quot;) = false;
-     * isBlank(&quot;a b&quot;) = false;
-     * </pre>
-     *
+     * 如果字符串为null或者""或者"  "都返回true
      * @param str
-     * @return if string is null or its size is 0 or it is made by space, return true, else return false.
+     * @return
      */
     public static boolean isBlank(String str) {
         return (str == null || str.trim().length() == 0);
     }
 
     /**
-     * is null or its length is 0
-     *
-     * <pre>
-     * isEmpty(null) = true;
-     * isEmpty(&quot;&quot;) = true;
-     * isEmpty(&quot;  &quot;) = false;
-     * </pre>
-     *
+     * 如果字符串为null或者""返回true
      * @param str
-     * @return if string is null or its size is 0, return true, else return false.
+     * @return
      */
     public static boolean isEmpty(String str) {
         return (str == null || str.length() == 0);
     }
 
     /**
-     * compare two string
-     *
+     * 判断两个字符串时候相等
      * @param actual
      * @param expected
      * @return
@@ -61,23 +42,16 @@ public class StringUtils {
     }
 
     /**
-     * null string to empty string
-     *
-     * <pre>
-     * nullStrToEmpty(null) = &quot;&quot;;
-     * nullStrToEmpty(&quot;&quot;) = &quot;&quot;;
-     * nullStrToEmpty(&quot;aa&quot;) = &quot;aa&quot;;
-     * </pre>
-     *
+     * 把null转换成空字符串
      * @param str
-     * @return
+     * @return 如果参数str不是null，则直接返回str
      */
     public static String nullStrToEmpty(String str) {
         return (str == null ? "" : str);
     }
 
     /**
-     * capitalize first letter
+     * 使得字符串的首字母大写
      *
      * <pre>
      * capitalizeFirstLetter(null)     =   null;
@@ -102,7 +76,7 @@ public class StringUtils {
     }
 
     /**
-     * encoded in utf-8
+     *URLEncode中文字符串，编码是utf-8
      *
      * <pre>
      * utf8Encode(null)        =   null
@@ -127,18 +101,18 @@ public class StringUtils {
     }
 
     /**
-     * encoded in utf-8, if exception, return defultReturn
+     * URLEncode中文字符串,编码是utf-8，如果出错了，返回defaultReturn
      *
      * @param str
-     * @param defultReturn
+     * @param defaultReturn
      * @return
      */
-    public static String utf8Encode(String str, String defultReturn) {
+    public static String utf8Encode(String str, String defaultReturn) {
         if (!isEmpty(str) && str.getBytes().length != str.length()) {
             try {
                 return URLEncoder.encode(str, "UTF-8");
             } catch (UnsupportedEncodingException e) {
-                return defultReturn;
+                return defaultReturn;
             }
         }
         return str;

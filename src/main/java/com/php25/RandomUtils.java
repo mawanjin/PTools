@@ -40,50 +40,38 @@ public class RandomUtils {
     }
 
     /**
-     * get a fixed-length random string, its a mixture of uppercase letters
-     *
+     * 获取给定长度的大写字符
      * @param length
      * @return
-     * @see RandomUtils#getRandom(String source, int length)
      */
     public static String getRandomCapitalLetters(int length) {
         return getRandom(CAPITAL_LETTERS, length);
     }
 
     /**
-     * get a fixed-length random string, its a mixture of lowercase letters
-     *
+     * 获取给定长度的小写字符
      * @param length
      * @return
-     * @see RandomUtils#getRandom(String source, int length)
      */
     public static String getRandomLowerCaseLetters(int length) {
         return getRandom(LOWER_CASE_LETTERS, length);
     }
 
     /**
-     * get a fixed-length random string, its a mixture of chars in source
-     *
-     * @param source
-     * @param length
-     * @return <ul>
-     *         <li>if source is null or empty, return null</li>
-     *         <li>else see {@link RandomUtils#getRandom(char[] sourceChar, int length)}</li>
-     *         </ul>
+     * 给定字符串数据源，从中生产随机字符串
+     * @param source 字符串数据源
+     * @param length 给定长度
+     * @return  如果数据源为null或者""，返回null
      */
     public static String getRandom(String source, int length) {
         return StringUtils.isEmpty(source) ? null : getRandom(source.toCharArray(), length);
     }
 
     /**
-     * get a fixed-length random string, its a mixture of chars in sourceChar
-     *
+     * 给定字符串数据源，从中生产随机字符串
      * @param sourceChar
      * @param length
-     * @return <ul>
-     *         <li>if sourceChar is null or empty, return null</li>
-     *         <li>if length less than 0, return null</li>
-     *         </ul>
+     * @return 如果数据源为null或者""，返回null
      */
     public static String getRandom(char[] sourceChar, int length) {
         if (sourceChar == null || sourceChar.length == 0 || length < 0) {
@@ -99,28 +87,19 @@ public class RandomUtils {
     }
 
     /**
-     * get random int between 0 and max
-     *
+     * 随机返回0到max之间的数字
      * @param max
-     * @return <ul>
-     *         <li>if max <= 0, return 0</li>
-     *         <li>else return random int between 0 and max</li>
-     *         </ul>
+     * @return 如果max小于0 则返回0
      */
     public static int getRandom(int max) {
         return getRandom(0, max);
     }
 
     /**
-     * get random int between min and max
-     *
+     * 随机返回min与max之间的数字
      * @param min
      * @param max
-     * @return <ul>
-     *         <li>if min > max, return 0</li>
-     *         <li>if min == max, return min</li>
-     *         <li>else return random int between min and max</li>
-     *         </ul>
+     * @return 如果min大于max返回0，如果min等于max返回min
      */
     public static int getRandom(int min, int max) {
         if (min > max) {
@@ -133,46 +112,45 @@ public class RandomUtils {
     }
 
     /**
-     * Shuffling algorithm, Randomly permutes the specified array using a default source of randomness
-     *
-     * @param objArray
-     * @return
+     * 从obj[]数组中，随机获取大小不定的obj[]数组
+     * @param objArray 源数组
+     * @return 长度不定的obj数组，里面的元素是源数组的元素
      */
-    public static boolean shuffle(Object[] objArray) {
+    public static Object[] shuffle(Object[] objArray) {
         if (objArray == null) {
-            return false;
+            return null;
         }
 
         return shuffle(objArray, getRandom(objArray.length));
     }
 
     /**
-     * Shuffling algorithm, Randomly permutes the specified array
-     *
-     * @param objArray
-     * @param shuffleCount
-     * @return
+     * 从object[]数组中，随机获取指定大小的object[]数组
+     * @param objArray 源数组
+     * @param shuffleCount 指定生产的数组大小
+     * @return 回object数组，大小为shuffleCount，里面的元素是源数组的元素.如果objArray是null或者shuffleCount大于objArray的长度返回null
      */
-    public static boolean shuffle(Object[] objArray, int shuffleCount) {
+    public static Object[] shuffle(Object[] objArray, int shuffleCount) {
         int length;
         if (objArray == null || shuffleCount < 0 || (length = objArray.length) < shuffleCount) {
-            return false;
+            return null;
         }
 
+        Object[] out = new Object[shuffleCount];
         for (int i = 1; i <= shuffleCount; i++) {
             int random = getRandom(length - i);
+            out[i - 1] = objArray[random];
             Object temp = objArray[length - i];
             objArray[length - i] = objArray[random];
             objArray[random] = temp;
         }
-        return true;
+        return out;
     }
 
     /**
-     * Shuffling algorithm, Randomly permutes the specified int array using a default source of randomness
-     *
-     * @param intArray
-     * @return
+     * 从int[]数组中，随机获取大小不定的int[]数组
+     * @param intArray 源数组
+     * @return 长度不定的int数组，里面的元素是源数组的元素
      */
     public static int[] shuffle(int[] intArray) {
         if (intArray == null) {
@@ -180,14 +158,13 @@ public class RandomUtils {
         }
 
         return shuffle(intArray, getRandom(intArray.length));
-    }
+     }
 
-    /**
-     * Shuffling algorithm, Randomly permutes the specified int array
-     *
-     * @param intArray
-     * @param shuffleCount
-     * @return
+     /**
+     * 从int[]数组中，随机获取指定大小的int[]数组
+     * @param intArray 源数组
+     * @param shuffleCount 指定生产的数组大小
+     * @return  返回int数组，大小为shuffleCount，里面的元素是源数组的元素.如果intArray是null或者shuffleCount大于intArray的长度返回null
      */
     public static int[] shuffle(int[] intArray, int shuffleCount) {
         int length;

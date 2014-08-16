@@ -12,8 +12,7 @@ public class DigestUtils {
             'e', 'f'                         };
 
     /**
-     * encode By MD5
-     * 
+     * MD5加密
      * @param str
      * @return String
      */
