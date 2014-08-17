@@ -1,6 +1,7 @@
 package com.php25;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by jack on 2014/8/13.
@@ -181,5 +182,13 @@ public class RandomUtils {
             intArray[random] = temp;
         }
         return out;
+    }
+
+    /**
+     * 获取随机uuid
+     * @return
+     */
+    public static String randomUUID() {
+        return UUID.randomUUID().toString();
     }
 }

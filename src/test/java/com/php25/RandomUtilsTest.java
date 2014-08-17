@@ -58,11 +58,16 @@ public class RandomUtilsTest {
         System.out.println(Arrays.toString(arr));
 
         String[] arr1 = new String[]{"1","2","3","5"};
-        RandomUtils.shuffle(arr1);
-        System.out.println(Arrays.toString(arr1));
+
+        System.out.println(Arrays.toString(RandomUtils.shuffle(arr1)));
 
         Integer[] arr2 = new Integer[]{1,2,3,5};
-        RandomUtils.shuffle(arr2);
-        System.out.println(Arrays.toString(arr2));
+
+        System.out.println(Arrays.toString(RandomUtils.shuffle(arr2)));
+    }
+
+    @Test
+    public void randomUUID() {
+        System.out.println(RandomUtils.randomUUID());
     }
 }

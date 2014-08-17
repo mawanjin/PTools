@@ -10,10 +10,42 @@ import org.junit.Test;
  * To change this template use File | Settings | File Templates.
  */
 public class StringUtilsTest {
-    private static StringUtils stringUtils = new StringUtils();
+
 
     @Test
     public void isEmpty(){
-         System.out.println(stringUtils.isEmpty(""));
+        System.out.println(StringUtils.isEmpty(""));
+        System.out.println(StringUtils.isEmpty(null));
+        System.out.println(StringUtils.isEmpty(" "));
     }
+
+    @Test
+    public void isBlank() {
+        System.out.println(StringUtils.isBlank(""));
+        System.out.println(StringUtils.isBlank(null));
+        System.out.println(StringUtils.isBlank(" "));
+    }
+
+    @Test
+    public void isEqual() {
+        String a = new String("hello");
+        String b = "hello";
+        System.out.println(StringUtils.isEquals(a,b));
+    }
+
+    @Test
+    public void nullStrToEmpty() {
+        System.out.println(StringUtils.nullStrToEmpty(null));
+    }
+
+    @Test
+    public void capitalizeFirstLetter() {
+        System.out.println(StringUtils.capitalizeFirstLetter("abc"));
+    }
+
+    @Test
+    public void utf8Encode() {
+        System.out.println(StringUtils.utf8Encode("好的就这样子"));
+    }
+
 }
