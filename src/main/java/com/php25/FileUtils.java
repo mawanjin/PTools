@@ -82,13 +82,12 @@ public class FileUtils {
     }
 
     /**
-     * write file
-     *
-     * @param filePath
-     * @param contentList
-     * @param append      is append, if true, write to the end of file, else clear content of file and write into it
-     * @return return false if contentList is empty, true otherwise
-     * @throws RuntimeException if an error occurs while operator FileWriter
+     * 写入文件操作
+     * @param filePath 写入文件路径
+     * @param contentList 写入的内容
+     * @param append 是否在文件末尾追加
+     * @return 写入成功返回true,如果写入内容为null或者""返回false
+     * @throws java.lang.RuntimeException
      */
     public static boolean writeFile(String filePath, List<String> contentList, boolean append) {
         if (null!=contentList && contentList.size()<=0) {
@@ -122,7 +121,7 @@ public class FileUtils {
     }
 
     /**
-     * 写入文件操作，每次写入会擦出以前写入的内容
+     * 写入文件操作，从文件起始位置开始写入
      * @param filePath
      * @param content
      * @return  写入成功返回true,如果写入内容为null或者""返回false
@@ -133,61 +132,57 @@ public class FileUtils {
     }
 
     /**
-     * write file, the string list will be written to the begin of the file
-     *
+     * 写入文件操作，从文件起始位置开始写入
      * @param filePath
      * @param contentList
-     * @return
+     * @return  写入成功返回true,如果写入内容为null或者""返回false
+     * @throws java.lang.RuntimeException
      */
     public static boolean writeFile(String filePath, List<String> contentList) {
         return writeFile(filePath, contentList, false);
     }
 
     /**
-     * write file, the bytes will be written to the begin of the file
-     *
+     * 写入文件操作，从文件起始位置开始写入
      * @param filePath
      * @param stream
-     * @return
-     * @see {@link #writeFile(String, java.io.InputStream, boolean)}
+     * @return 写入文件成功返回true
+     * @throws java.lang.RuntimeException
      */
     public static boolean writeFile(String filePath, InputStream stream) {
         return writeFile(filePath, stream, false);
     }
 
     /**
-     * write file
-     *
-     * @param filePath   the file to be opened for writing.
-     * @param stream the input stream
-     * @param append if <code>true</code>, then bytes will be written to the end of the file rather than the beginning
-     * @return return true
-     * @throws RuntimeException if an error occurs while operator FileOutputStream
+     * 写入文件操作
+     * @param filePath
+     * @param stream
+     * @param append 是否在文件末尾追加写入
+     * @return  写入文件成功返回true
+     * @throws java.lang.RuntimeException
      */
     public static boolean writeFile(String filePath, InputStream stream, boolean append) {
         return writeFile(filePath != null ? new File(filePath) : null, stream, append);
     }
 
     /**
-     * write file, the bytes will be written to the begin of the file
-     *
+     * 写入文件操作，从文件头开始写入
      * @param file
      * @param stream
-     * @return
-     * @see {@link #writeFile(java.io.File, java.io.InputStream, boolean)}
+     * @return 写入成功返回true
+     * @throws java.lang.RuntimeException
      */
     public static boolean writeFile(File file, InputStream stream) {
         return writeFile(file, stream, false);
     }
 
     /**
-     * write file
-     *
-     * @param file   the file to be opened for writing.
-     * @param stream the input stream
-     * @param append if <code>true</code>, then bytes will be written to the end of the file rather than the beginning
-     * @return return true
-     * @throws RuntimeException if an error occurs while operator FileOutputStream
+     * 写入文件操作
+     * @param file
+     * @param stream
+     * @param append
+     * @return 写入成功返回true
+     * @throws java.lang.RuntimeException
      */
     public static boolean writeFile(File file, InputStream stream, boolean append) {
         OutputStream o = null;
@@ -218,7 +213,7 @@ public class FileUtils {
     }
 
     /**
-     * copy file
+     * 复制文件
      *
      * @param sourceFilePath
      * @param destFilePath
@@ -236,7 +231,7 @@ public class FileUtils {
     }
 
     /**
-     * read file to string list, a element of list is a line
+     * 读取文件，以list方式返回
      *
      * @param filePath
      * @param charsetName The name of a supported {@link java.nio.charset.Charset </code>charset<code>}
@@ -274,7 +269,7 @@ public class FileUtils {
     }
 
     /**
-     * get file name from path, not include suffix
+     * 获取文件名，去除后缀
      * <p/>
      * <pre>
      *      getFileNameWithoutExtension(null)               =   null
@@ -312,7 +307,7 @@ public class FileUtils {
     }
 
     /**
-     * get file name from path, include suffix
+     * 获取文件名
      * <p/>
      * <pre>
      *      getFileName(null)               =   null
@@ -342,7 +337,7 @@ public class FileUtils {
     }
 
     /**
-     * get folder name from path
+     * 获取文件所在的路径
      * <p/>
      * <pre>
      *      getFolderName(null)               =   null
@@ -374,7 +369,7 @@ public class FileUtils {
     }
 
     /**
-     * get suffix of file from path
+     * 获取文件的后缀名
      * <p/>
      * <pre>
      *      getFileExtension(null)               =   ""
@@ -409,23 +404,9 @@ public class FileUtils {
     }
 
     /**
-     * Creates the directory named by the trailing filename of this file, including the complete directory path required
-     * to create this directory. <br/>
-     * <br/>
-     * <ul>
-     * <strong>Attentions:</strong>
-     * <li>makeDirs("C:\\Users\\Trinea") can only create users folder</li>
-     * <li>makeFolder("C:\\Users\\Trinea\\") can create Trinea folder</li>
-     * </ul>
-     *
+     * 创建文件夹
      * @param filePath
-     * @return true if the necessary directories have been created or the target directory already exists, false one of
-     * the directories can not be created.
-     * <ul>
-     * <li>if {@link com.php25.FileUtils#getFolderName(String)} return null, return false</li>
-     * <li>if target directory already exists, return true</li>
-     * <li>return {@link java.io.File#}</li>
-     * </ul>
+     * @return 如果创建成功返回true,如果文件夹已存在，也返回true
      */
     public static boolean makeDirs(String filePath) {
         String folderName = getFolderName(filePath);
@@ -513,7 +494,7 @@ public class FileUtils {
     }
 
     /**
-     * get file size
+     * 获取文件大小
      * <ul>
      * <li>if path is null or empty, return -1</li>
      * <li>if path exist and it is a file, return file size, else return -1</li>
