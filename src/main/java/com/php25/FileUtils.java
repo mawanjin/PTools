@@ -9,12 +9,11 @@ public class FileUtils {
     public final static String FILE_EXTENSION_SEPARATOR = ".";
 
     /**
-     * read file
-     *
+     * 读取文件内容
      * @param filePath
-     * @param charsetName The name of a supported {@link java.nio.charset.Charset </code>charset<code>}
-     * @return if file not exist, return null, else return content of file
-     * @throws RuntimeException if an error occurs while operator BufferedReader
+     * @param charsetName
+     * @return 文件内容，如果文件不存在返回null
+     * @throws java.lang.RuntimeException
      */
     public static StringBuilder readFile(String filePath, String charsetName) {
         File file = new File(filePath);
@@ -50,13 +49,12 @@ public class FileUtils {
     }
 
     /**
-     * write file
-     *
-     * @param filePath
-     * @param content
-     * @param append   is append, if true, write to the end of file, else clear content of file and write into it
-     * @return return false if content is empty, true otherwise
-     * @throws RuntimeException if an error occurs while operator FileWriter
+     * 写入文件操作
+     * @param filePath 写入文件路径
+     * @param content 写入的内容
+     * @param append 是否在文件末尾追加
+     * @return 写入成功返回true,如果写入内容为null或者""返回false
+     * @throws java.lang.RuntimeException
      */
     public static boolean writeFile(String filePath, String content, boolean append) {
         if (StringUtils.isEmpty(content)) {
@@ -124,11 +122,11 @@ public class FileUtils {
     }
 
     /**
-     * write file, the string will be written to the begin of the file
-     *
+     * 写入文件操作，每次写入会擦出以前写入的内容
      * @param filePath
      * @param content
-     * @return
+     * @return  写入成功返回true,如果写入内容为null或者""返回false
+     * @throws java.lang.RuntimeException
      */
     public static boolean writeFile(String filePath, String content) {
         return writeFile(filePath, content, false);
@@ -449,7 +447,7 @@ public class FileUtils {
     }
 
     /**
-     * Indicates if this file represents a file on the underlying file system.
+     * 判断文件是否存在
      *
      * @param filePath
      * @return
@@ -464,7 +462,7 @@ public class FileUtils {
     }
 
     /**
-     * Indicates if this file represents a directory on the underlying file system.
+     * 判断文件夹是否存在
      *
      * @param directoryPath
      * @return
@@ -479,7 +477,7 @@ public class FileUtils {
     }
 
     /**
-     * delete file or directory
+     * 删除文件或者文件夹
      * <ul>
      * <li>if path is null or empty, return true</li>
      * <li>if path not exist, return true</li>
