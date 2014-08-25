@@ -1,4 +1,4 @@
-package com.php25;
+package com.php25.tools;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

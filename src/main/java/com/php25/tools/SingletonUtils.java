@@ -1,4 +1,4 @@
-package com.php25;
+package com.php25.tools;
 
 
 public abstract class SingletonUtils<T> {

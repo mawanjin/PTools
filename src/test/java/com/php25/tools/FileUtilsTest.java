@@ -1,5 +1,6 @@
-package com.php25;
+package com.php25.tools;
 
+import com.php25.tools.FileUtils;
 import org.junit.Test;
 
 /**
@@ -10,7 +11,7 @@ public class FileUtilsTest {
 
     @Test
     public void readFile() {
-        String temp = FileUtils.readFile(path,"utf-8").toString();
+        String temp = FileUtils.readFile(path, "utf-8").toString();
         System.out.println(temp);
     }
 

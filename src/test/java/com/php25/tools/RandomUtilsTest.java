@@ -1,5 +1,6 @@
-package com.php25;
+package com.php25.tools;
 
+import com.php25.tools.RandomUtils;
 import org.junit.Test;
 
 import java.util.Arrays;

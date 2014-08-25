@@ -1,5 +1,6 @@
-package com.php25;
+package com.php25.tools;
 
+import com.php25.tools.SerializeUtils;
 import org.junit.Test;
 
 /**
@@ -9,7 +10,7 @@ public class SerializeUtilsTest {
     public final static String path = "C:\\Users\\jack\\Desktop\\2.txt";
     @Test
     public void serialization() {
-        SerializeUtils.serialization(path,new String("asdf"));
+        SerializeUtils.serialization(path, new String("asdf"));
     }
 
     @Test

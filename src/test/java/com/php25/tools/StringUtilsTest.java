@@ -1,5 +1,6 @@
-package com.php25;
+package com.php25.tools;
 
+import com.php25.tools.StringUtils;
 import org.junit.Test;
 
 /**
