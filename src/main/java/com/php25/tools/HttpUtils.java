@@ -32,7 +32,6 @@ public class HttpUtils {
             }
             StringBuilder sb = new StringBuilder();
             HttpURLConnection conn = null;
-
             try {
                 URL u = new URL(url + getStringParams(params));
                 final String host = u.getHost();
@@ -46,40 +45,51 @@ public class HttpUtils {
                 conn.setRequestMethod("GET");
                 final String cookie = cookies.get(host);
                 if (cookie != null) conn.addRequestProperty("Cookie", cookie);
+                int statusCode = conn.getResponseCode();
+                switch (statusCode) {
+                    case 200:
+                        final String setCookie = conn.getHeaderField("Set-Cookie");
+                        if (!StringUtils.isBlank(setCookie)) {
+                            cookies.put(host, setCookie);
+                        }
+                        InputStreamReader in = new InputStreamReader(conn.getInputStream());
+                        // chain the InputStream to a Reader
+                        BufferedReader r = new BufferedReader(in);
+                        String c;
+                        while ((c = r.readLine()) != null) {
+                            sb.append(c);
+                        }
+                        break;
+                    case 304:
+                        //直接读取缓存
+                        break;
+                    default:
+                        break;
 
-                final String setCookie = conn.getHeaderField("Set-Cookie");
-                if (!StringUtils.isBlank(setCookie)) {
-                    cookies.put(host, setCookie);
-                }
-                InputStreamReader in = new InputStreamReader(conn.getInputStream());
-                // chain the InputStream to a Reader
-                BufferedReader r = new BufferedReader(in);
-                String c;
-                while ((c = r.readLine()) != null) {
-                    sb.append(c);
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
+                throw new RuntimeException();
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new RuntimeException();
             } finally {
                 if (null != conn) {
                     conn.disconnect();
                     conn = null;
                 }
             }
-
             return sb.toString();
         }
 
-        private static String getStringParams(Map<String, String> params) {
+        public static String getStringParams(Map<String, String> params) {
             StringBuilder temp = new StringBuilder();
             temp.append("?");
             for (String key : params.keySet()) {
                 temp.append(key).append("=").append(params.get(key)).append("&");
             }
-            temp.substring(0, temp.length() - 1);
-            return temp.toString();
+            String value = temp.substring(0,temp.length()-1);
+            return value;
         }
 
 }
