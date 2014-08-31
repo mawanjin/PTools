@@ -25,10 +25,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * To change this template use File | Settings | File Templates.
  */
 public class HttpUtils {
-        static {
-            ResponseCache.setDefault(new FileCache(10*1024*1024L,"C:/Users/jack/Desktop/cache"));
-        }
-
         /**
          * 如果获取成功，返回response的内容；否则返回null或者""或者抛出RuntimeException
          *
