@@ -1,12 +1,16 @@
 package com.php25.tools;
 
+import com.php25.caches.MemoryCache;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ResponseCache;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,6 +21,10 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class HttpUtils {
+        static {
+            ResponseCache.setDefault(new MemoryCache());
+        }
+
         private static Map<String, String> cookies = new HashMap<String, String>();
 
         /**
@@ -38,20 +46,25 @@ public class HttpUtils {
                 conn = (HttpURLConnection) u.openConnection();
                 conn.setDoInput(true);
                 conn.setDoOutput(false);
-                conn.setUseCaches(false);
+                conn.setUseCaches(true);
                 conn.setConnectTimeout(30000);
                 conn.setReadTimeout(30000);
+
                 //conn.setIfModifiedSince();
                 conn.setRequestMethod("GET");
-                final String cookie = cookies.get(host);
-                if (cookie != null) conn.addRequestProperty("Cookie", cookie);
+                System.out.println("request header:=======>"+conn.getRequestProperties().toString());
+                Map<String,List<String>> headerFields = conn.getHeaderFields();
+                System.out.println("response header:=======>"+headerFields.toString());
+
+//                final String cookie = cookies.get(host);
+//                if (cookie != null) conn.addRequestProperty("Cookie", cookie);
                 int statusCode = conn.getResponseCode();
-                switch (statusCode) {
-                    case 200:
-                        final String setCookie = conn.getHeaderField("Set-Cookie");
-                        if (!StringUtils.isBlank(setCookie)) {
-                            cookies.put(host, setCookie);
-                        }
+//                switch (statusCode) {
+//                    case 200:
+//                        final String setCookie = conn.getHeaderField("Set-Cookie");
+//                        if (!StringUtils.isBlank(setCookie)) {
+//                            cookies.put(host, setCookie);
+//                        }
                         InputStreamReader in = new InputStreamReader(conn.getInputStream());
                         // chain the InputStream to a Reader
                         BufferedReader r = new BufferedReader(in);
@@ -59,14 +72,14 @@ public class HttpUtils {
                         while ((c = r.readLine()) != null) {
                             sb.append(c);
                         }
-                        break;
-                    case 304:
-                        //直接读取缓存
-                        break;
-                    default:
-                        break;
-
-                }
+//                        break;
+//                    case 304:
+//                        //直接读取缓存
+//                        break;
+//                    default:
+//                        break;
+//
+//                }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 throw new RuntimeException();
@@ -83,6 +96,9 @@ public class HttpUtils {
         }
 
         public static String getStringParams(Map<String, String> params) {
+            if(params == null) {
+                return "";
+            }
             StringBuilder temp = new StringBuilder();
             temp.append("?");
             for (String key : params.keySet()) {
