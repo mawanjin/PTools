@@ -11,8 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MemoryCache extends ResponseCache{
 
-    private Map<URI, SimpleCacheResponse> responses
-            = new ConcurrentHashMap<URI, SimpleCacheResponse>();
+    private Map<URI, MemoryCacheResponse> responses
+            = new ConcurrentHashMap<URI, MemoryCacheResponse>();
     private int maxEntries = 100;
     public MemoryCache() {
         this(100);
@@ -27,15 +27,15 @@ public class MemoryCache extends ResponseCache{
         if (cacheControl != null && cacheControl.indexOf("no-cache") >= 0) {
             return null;
         }
-        SimpleCacheRequest request = new SimpleCacheRequest();
-        SimpleCacheResponse response = new SimpleCacheResponse(request, uc);
+        MemoryCacheRequest request = new MemoryCacheRequest();
+        MemoryCacheResponse response = new MemoryCacheResponse(request, uc);
         responses.put(uri, response);
         return request;
     }
     public CacheResponse get(URI uri, String requestMethod,
                              Map<String,List<String>> requestHeaders)
             throws IOException {
-        SimpleCacheResponse response = responses.get(uri);
+        MemoryCacheResponse response = responses.get(uri);
         if (response != null && response.isExpired()) { // check expiration date
             responses.remove(response);
             response = null;

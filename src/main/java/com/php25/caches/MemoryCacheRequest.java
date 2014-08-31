@@ -8,7 +8,7 @@ import java.net.CacheRequest;
 /**
  * Created by jack on 2014/8/30.
  */
-public class SimpleCacheRequest extends CacheRequest {
+public class MemoryCacheRequest extends CacheRequest {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
 
     @Override

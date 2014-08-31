@@ -1,6 +1,7 @@
 package com.php25.caches;
 
-import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.CacheResponse;
@@ -8,17 +9,16 @@ import java.net.URLConnection;
 import java.util.*;
 
 /**
- * Created by jack on 2014/8/30.
+ * Created by jack on 2014/8/31.
  */
-public class SimpleCacheResponse extends CacheResponse {
-    private Map<String,List<String>> headers;
-    private SimpleCacheRequest request;
+public class FileCacheResponse extends CacheResponse {
+    private FileCacheRequest request;
     private Date expires;
-    public SimpleCacheResponse(SimpleCacheRequest request, URLConnection uc)
-            throws IOException {
+    private Map<String,List<String>> headers;
+
+    public FileCacheResponse(FileCacheRequest request,URLConnection uc) {
         this.request = request;
-        // deliberate shadowing; we need to fill the map and
-        // then make it unmodifiable
+
         Map<String,List<String>> headers = new HashMap<String,List<String>>();
         String value = "";
         for (int i = 0;; i++) {
@@ -38,14 +38,25 @@ public class SimpleCacheResponse extends CacheResponse {
         }
         this.headers = Collections.unmodifiableMap(headers);
     }
-    public InputStream getBody() {
-        return new ByteArrayInputStream(request.getData());
+
+    public FileCacheResponse(FileCacheRequest request, Map<String,List<String>> headers) {
+        this.request = request;
+        this.headers = Collections.unmodifiableMap(headers);
+        this.expires = new Date((String)headers.get("Expires").get(0));
     }
 
-    public Map<String,List<String>> getHeaders()
-            throws IOException {
+
+    @Override
+    public Map<String, List<String>> getHeaders() throws IOException {
         return headers;
     }
+
+    @Override
+    public InputStream getBody() throws IOException {
+        File file = request.getCacheFile();
+        return new FileInputStream(file);
+    }
+
     public boolean isExpired() {
         if (expires == null) return false;
         else {

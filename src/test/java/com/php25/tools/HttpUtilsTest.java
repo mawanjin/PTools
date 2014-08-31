@@ -14,7 +14,7 @@ public class HttpUtilsTest {
     @Test
     public void get() throws Exception{
         HttpUtils.get("http://7.su.bdimg.com/icon/10062.png",null);
-        HttpUtils.get("http://7.su.bdimg.com/icon/10062.png",null);
+        //HttpUtils.get("http://7.su.bdimg.com/icon/10062.png",null);
     }
 
     @Test
