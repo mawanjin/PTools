@@ -1,22 +1,18 @@
-package com.php25.tools;
+package com.php25.tools.impl;
+
+import com.php25.tools.DigestTool;
 
 import java.security.MessageDigest;
 
 
-public class DigestUtils {
-
+public class DigestToolImpl implements DigestTool {
     /**
      * Used to build output as Hex
      */
-    private static final char[] DIGITS_LOWER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
-            'e', 'f'                         };
+    private static final char[] DIGITS_LOWER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
-    /**
-     * MD5加密
-     * @param str
-     * @return String
-     */
-    public static String md5(String str) {
+    @Override
+    public String md5(String str) {
         if (str == null) {
             return null;
         }
@@ -33,11 +29,11 @@ public class DigestUtils {
      * Converts an array of bytes into an array of characters representing the hexadecimal values of each byte in order.
      * The returned array will be double the length of the passed array, as it takes two characters to represent any
      * given byte.
-     * 
+     *
      * @param data a byte[] to convert to Hex characters
      * @return A char[] containing hexadecimal characters
      */
-    protected static char[] encodeHex(final byte[] data) {
+    private char[] encodeHex(final byte[] data) {
         final int l = data.length;
         final char[] out = new char[l << 1];
         // two characters form the hex value.

@@ -1,21 +1,30 @@
-package com.php25.tools;
+package com.php25.tools.impl;
+
+import com.php25.tools.FileTool;
+import com.php25.tools.StringTool;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileUtils {
-
+public class FileToolImpl implements FileTool {
     public final static String FILE_EXTENSION_SEPARATOR = ".";
+
+    private StringTool stringTool;
+
+    public FileToolImpl(StringTool stringTool) {
+        this.stringTool = stringTool;
+    }
 
     /**
      * 读取文件内容
+     *
      * @param filePath
      * @param charsetName
      * @return 文件内容，如果文件不存在返回null
      * @throws java.lang.RuntimeException
      */
-    public static StringBuilder readFile(String filePath, String charsetName) {
+    public  StringBuilder readFile(String filePath, String charsetName) {
         File file = new File(filePath);
         StringBuilder fileContent = new StringBuilder("");
         if (file == null || !file.isFile()) {
@@ -50,14 +59,15 @@ public class FileUtils {
 
     /**
      * 写入文件操作
+     *
      * @param filePath 写入文件路径
-     * @param content 写入的内容
-     * @param append 是否在文件末尾追加
-     * @return 写入成功返回true,如果写入内容为null或者""返回false
+     * @param content  写入的内容
+     * @param append   是否在文件末尾追加
+     * @return 写入成功返回true, 如果写入内容为null或者""返回false
      * @throws java.lang.RuntimeException
      */
-    public static boolean writeFile(String filePath, String content, boolean append) {
-        if (StringUtils.isEmpty(content)) {
+    public  boolean writeFile(String filePath, String content, boolean append) {
+        if (stringTool.isEmpty(content)) {
             return false;
         }
 
@@ -83,14 +93,15 @@ public class FileUtils {
 
     /**
      * 写入文件操作
-     * @param filePath 写入文件路径
+     *
+     * @param filePath    写入文件路径
      * @param contentList 写入的内容
-     * @param append 是否在文件末尾追加
-     * @return 写入成功返回true,如果写入内容为null或者""返回false
+     * @param append      是否在文件末尾追加
+     * @return 写入成功返回true, 如果写入内容为null或者""返回false
      * @throws java.lang.RuntimeException
      */
-    public static boolean writeFile(String filePath, List<String> contentList, boolean append) {
-        if (null!=contentList && contentList.size()<=0) {
+    public  boolean writeFile(String filePath, List<String> contentList, boolean append) {
+        if (null != contentList && contentList.size() <= 0) {
             return false;
         }
 
@@ -122,69 +133,75 @@ public class FileUtils {
 
     /**
      * 写入文件操作，从文件起始位置开始写入
+     *
      * @param filePath
      * @param content
-     * @return  写入成功返回true,如果写入内容为null或者""返回false
+     * @return 写入成功返回true, 如果写入内容为null或者""返回false
      * @throws java.lang.RuntimeException
      */
-    public static boolean writeFile(String filePath, String content) {
+    public  boolean writeFile(String filePath, String content) {
         return writeFile(filePath, content, false);
     }
 
     /**
      * 写入文件操作，从文件起始位置开始写入
+     *
      * @param filePath
      * @param contentList
-     * @return  写入成功返回true,如果写入内容为null或者""返回false
+     * @return 写入成功返回true, 如果写入内容为null或者""返回false
      * @throws java.lang.RuntimeException
      */
-    public static boolean writeFile(String filePath, List<String> contentList) {
+    public  boolean writeFile(String filePath, List<String> contentList) {
         return writeFile(filePath, contentList, false);
     }
 
     /**
      * 写入文件操作，从文件起始位置开始写入
+     *
      * @param filePath
      * @param stream
      * @return 写入文件成功返回true
      * @throws java.lang.RuntimeException
      */
-    public static boolean writeFile(String filePath, InputStream stream) {
+    public  boolean writeFile(String filePath, InputStream stream) {
         return writeFile(filePath, stream, false);
     }
 
     /**
      * 写入文件操作
+     *
      * @param filePath
      * @param stream
-     * @param append 是否在文件末尾追加写入
-     * @return  写入文件成功返回true
+     * @param append   是否在文件末尾追加写入
+     * @return 写入文件成功返回true
      * @throws java.lang.RuntimeException
      */
-    public static boolean writeFile(String filePath, InputStream stream, boolean append) {
+    public  boolean writeFile(String filePath, InputStream stream, boolean append) {
         return writeFile(filePath != null ? new File(filePath) : null, stream, append);
     }
 
     /**
      * 写入文件操作，从文件头开始写入
+     *
      * @param file
      * @param stream
      * @return 写入成功返回true
      * @throws java.lang.RuntimeException
      */
-    public static boolean writeFile(File file, InputStream stream) {
+    public  boolean writeFile(File file, InputStream stream) {
         return writeFile(file, stream, false);
     }
 
     /**
      * 写入文件操作
+     *
      * @param file
      * @param stream
      * @param append
      * @return 写入成功返回true
      * @throws java.lang.RuntimeException
      */
-    public static boolean writeFile(File file, InputStream stream, boolean append) {
+    public  boolean writeFile(File file, InputStream stream, boolean append) {
         OutputStream o = null;
         try {
             makeDirs(file.getAbsolutePath());
@@ -220,7 +237,7 @@ public class FileUtils {
      * @return
      * @throws RuntimeException if an error occurs while operator FileOutputStream
      */
-    public static boolean copyFile(String sourceFilePath, String destFilePath) {
+    public  boolean copyFile(String sourceFilePath, String destFilePath) {
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream(sourceFilePath);
@@ -238,7 +255,7 @@ public class FileUtils {
      * @return if file not exist, return null, else return content of file
      * @throws RuntimeException if an error occurs while operator BufferedReader
      */
-    public static List<String> readFileToList(String filePath, String charsetName) {
+    public  List<String> readFileToList(String filePath, String charsetName) {
         File file = new File(filePath);
         List<String> fileContent = new ArrayList<String>();
         if (file == null || !file.isFile()) {
@@ -270,7 +287,7 @@ public class FileUtils {
 
     /**
      * 获取文件名，去除后缀
-     * <p/>
+     * <p>
      * <pre>
      *      getFileNameWithoutExtension(null)               =   null
      *      getFileNameWithoutExtension("")                 =   ""
@@ -290,8 +307,8 @@ public class FileUtils {
      * @return file name from path, not include suffix
      * @see
      */
-    public static String getFileNameWithoutExtension(String filePath) {
-        if (StringUtils.isEmpty(filePath)) {
+    public  String getFileNameWithoutExtension(String filePath) {
+        if (stringTool.isEmpty(filePath)) {
             return filePath;
         }
 
@@ -308,7 +325,7 @@ public class FileUtils {
 
     /**
      * 获取文件名
-     * <p/>
+     * <p>
      * <pre>
      *      getFileName(null)               =   null
      *      getFileName("")                 =   ""
@@ -327,8 +344,8 @@ public class FileUtils {
      * @param filePath
      * @return file name from path, include suffix
      */
-    public static String getFileName(String filePath) {
-        if (StringUtils.isEmpty(filePath)) {
+    public  String getFileName(String filePath) {
+        if (stringTool.isEmpty(filePath)) {
             return filePath;
         }
 
@@ -338,7 +355,7 @@ public class FileUtils {
 
     /**
      * 获取文件所在的路径
-     * <p/>
+     * <p>
      * <pre>
      *      getFolderName(null)               =   null
      *      getFolderName("")                 =   ""
@@ -358,9 +375,9 @@ public class FileUtils {
      * @param filePath
      * @return
      */
-    public static String getFolderName(String filePath) {
+    public  String getFolderName(String filePath) {
 
-        if (StringUtils.isEmpty(filePath)) {
+        if (stringTool.isEmpty(filePath)) {
             return filePath;
         }
 
@@ -370,7 +387,7 @@ public class FileUtils {
 
     /**
      * 获取文件的后缀名
-     * <p/>
+     * <p>
      * <pre>
      *      getFileExtension(null)               =   ""
      *      getFileExtension("")                 =   ""
@@ -390,8 +407,8 @@ public class FileUtils {
      * @param filePath
      * @return
      */
-    public static String getFileExtension(String filePath) {
-        if (StringUtils.isBlank(filePath)) {
+    public  String getFileExtension(String filePath) {
+        if (stringTool.isBlank(filePath)) {
             return filePath;
         }
 
@@ -405,12 +422,13 @@ public class FileUtils {
 
     /**
      * 创建文件夹
+     *
      * @param filePath
-     * @return 如果创建成功返回true,如果文件夹已存在，也返回true
+     * @return 如果创建成功返回true, 如果文件夹已存在，也返回true
      */
-    public static boolean makeDirs(String filePath) {
+    public  boolean makeDirs(String filePath) {
         String folderName = getFolderName(filePath);
-        if (StringUtils.isEmpty(folderName)) {
+        if (stringTool.isEmpty(folderName)) {
             return false;
         }
 
@@ -423,7 +441,7 @@ public class FileUtils {
      * @return
      * @see #makeDirs(String)
      */
-    public static boolean makeFolders(String filePath) {
+    public  boolean makeFolders(String filePath) {
         return makeDirs(filePath);
     }
 
@@ -433,8 +451,8 @@ public class FileUtils {
      * @param filePath
      * @return
      */
-    public static boolean isFileExist(String filePath) {
-        if (StringUtils.isBlank(filePath)) {
+    public  boolean isFileExist(String filePath) {
+        if (stringTool.isBlank(filePath)) {
             return false;
         }
 
@@ -448,8 +466,8 @@ public class FileUtils {
      * @param directoryPath
      * @return
      */
-    public static boolean isFolderExist(String directoryPath) {
-        if (StringUtils.isBlank(directoryPath)) {
+    public  boolean isFolderExist(String directoryPath) {
+        if (stringTool.isBlank(directoryPath)) {
             return false;
         }
 
@@ -468,8 +486,8 @@ public class FileUtils {
      * @param path
      * @return
      */
-    public static boolean deleteFile(String path) {
-        if (StringUtils.isBlank(path)) {
+    public  boolean deleteFile(String path) {
+        if (stringTool.isBlank(path)) {
             return true;
         }
 
@@ -503,8 +521,8 @@ public class FileUtils {
      * @param path
      * @return returns the length of this file in bytes. returns -1 if the file does not exist.
      */
-    public static long getFileSize(String path) {
-        if (StringUtils.isBlank(path)) {
+    public long getFileSize(String path) {
+        if (stringTool.isBlank(path)) {
             return -1;
         }
 

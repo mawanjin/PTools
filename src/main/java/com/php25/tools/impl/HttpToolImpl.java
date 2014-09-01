@@ -1,6 +1,12 @@
-package com.php25.tools;
+package com.php25.tools.impl;
 
-import java.io.*;
+import com.php25.tools.HttpTool;
+import com.php25.tools.StringTool;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,23 +19,23 @@ import java.util.Map;
  * Time: 下午12:52
  * To change this template use File | Settings | File Templates.
  */
-public class HttpUtils {
-    /**
-     * 如果获取成功，返回response的内容；否则返回null或者""或者抛出RuntimeException
-     *
-     * @param url
-     * @param params
-     * @return
-     */
-    public static String get(String url, Map<String, String> params) {
-        if (StringUtils.isBlank(url)) {
+public class HttpToolImpl implements HttpTool {
+    private StringTool stringTool;
+
+    public HttpToolImpl(StringTool stringTool) {
+        this.stringTool = stringTool;
+    }
+
+    @Override
+    public String get(String url, Map<String, String> params) {
+        if (stringTool.isBlank(url)) {
             return null;
         }
         StringBuilder sb = new StringBuilder();
         HttpURLConnection conn = null;
         BufferedReader in = null;
         try {
-            URL u = new URL(url +"?"+getStringParams(params));
+            URL u = new URL(url + "?" + getStringParams(params));
             conn = (HttpURLConnection) u.openConnection();
             conn.setDoInput(true);
             conn.setDoOutput(false);
@@ -75,14 +81,9 @@ public class HttpUtils {
         return sb.toString();
     }
 
-    /**
-     * 如果获取成功，返回response的内容；否则返回null或者""或者抛出RuntimeException
-     * @param url
-     * @param params
-     * @return
-     */
-    public static String post(String url,Map<String,String> params) {
-        if (StringUtils.isBlank(url)) {
+    @Override
+    public String post(String url, Map<String, String> params) {
+        if (stringTool.isBlank(url)) {
             return null;
         }
         StringBuilder sb = new StringBuilder();
@@ -100,7 +101,7 @@ public class HttpUtils {
             //conn.setIfModifiedSince(new Date("Thu, 05 Jun 2014 11:40:13 GMT").getTime());
             conn.setRequestMethod("POST");
 
-            out  = new PrintWriter(conn.getOutputStream());
+            out = new PrintWriter(conn.getOutputStream());
             out.print(getStringParams(params));
             out.flush();
 
@@ -124,12 +125,12 @@ public class HttpUtils {
             throw new RuntimeException(e);
         } finally {
             try {
-                if(null != in) {
+                if (null != in) {
                     in.close();
                     in = null;
                 }
 
-                if(null != out) {
+                if (null != out) {
                     out.close();
                     out = null;
                 }
@@ -147,13 +148,8 @@ public class HttpUtils {
     }
 
 
-    /**
-     * 把Map<String,String>参数，拼接成"name=123&password=pwd"这种形式
-     * 如果 params为null 则返回""
-     * @param params
-     * @return
-     */
-    public static String getStringParams(Map<String, String> params) {
+    @Override
+    public String getStringParams(Map<String, String> params) {
         if (params == null) {
             return "";
         }

@@ -4,7 +4,7 @@
 
   <groupId>com.php25.tools</groupId>
   <artifactId>PTools</artifactId>
-  <version>0.03-SNAPSHOT</version>
+  <version>0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>PTools</name>
