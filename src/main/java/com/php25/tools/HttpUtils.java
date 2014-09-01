@@ -52,10 +52,10 @@ public class HttpUtils {
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         } finally {
             try {
                 if (null != in) {
@@ -69,7 +69,7 @@ public class HttpUtils {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException();
+                throw new RuntimeException(e);
             }
         }
         return sb.toString();
@@ -118,10 +118,10 @@ public class HttpUtils {
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         } finally {
             try {
                 if(null != in) {
@@ -140,13 +140,19 @@ public class HttpUtils {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new RuntimeException();
+                throw new RuntimeException(e);
             }
         }
         return sb.toString();
     }
 
 
+    /**
+     * 把Map<String,String>参数，拼接成"name=123&password=pwd"这种形式
+     * 如果 params为null 则返回""
+     * @param params
+     * @return
+     */
     public static String getStringParams(Map<String, String> params) {
         if (params == null) {
             return "";
