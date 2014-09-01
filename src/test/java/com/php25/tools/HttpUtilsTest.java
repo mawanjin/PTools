@@ -27,8 +27,9 @@ public class HttpUtilsTest {
     @Test
     public void post() throws Exception {
         ResponseCache.setDefault(new FileCache(10 * 1024 * 1024L, "/Users/jack/Desktop/cache"));
-        //System.out.println(HttpUtils.post("http://www.sina.com",null));
-        System.out.println(HttpUtils.post("http://www.csdn.net/abc/",null));
+       // HttpUtils.post("http://7.su.bdimg.com/icon/10062.png",null);
+        HttpUtils.post("http://www.sina.com.cn",null);
+       // HttpUtils.post("http://www.baidu.com",null);
     }
 
     @Test

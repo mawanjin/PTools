@@ -16,7 +16,7 @@ import java.util.Map;
  * Time: 上午11:13
  * To change this template use File | Settings | File Templates.
  */
-public class CacheResponseFactory {
+public class CacheResponseUtils {
     public static FileCacheResponse getFileCacheResponse (FileCacheRequest request,String cacheDir,URI uri) {
         String headerFilePath = cacheDir+"/"+ DigestUtils.md5(uri.toString())+".0";
         if(FileUtils.isFileExist(headerFilePath)) {

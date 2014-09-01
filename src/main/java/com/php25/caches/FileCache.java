@@ -2,10 +2,8 @@ package com.php25.caches;
 
 import com.php25.tools.DigestUtils;
 import com.php25.tools.FileUtils;
-import com.php25.tools.SerializeUtils;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.*;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +24,7 @@ public class FileCache extends ResponseCache {
     @Override
     public CacheResponse get(URI uri, String rqstMethod, Map<String, List<String>> rqstHeaders) throws IOException {
         FileCacheRequest request = new FileCacheRequest(cacheDir,uri.toString());
-        FileCacheResponse response = CacheResponseFactory.getFileCacheResponse(request,cacheDir,uri);
+        FileCacheResponse response = CacheResponseUtils.getFileCacheResponse(request, cacheDir, uri);
         if (null != response && response.isExpired()) { // check expiration date
             FileUtils.deleteFile(cacheDir+"/"+DigestUtils.md5(uri.toString())+".0");
             FileUtils.deleteFile(cacheDir+"/"+DigestUtils.md5(uri.toString())+".1");
@@ -46,7 +44,7 @@ public class FileCache extends ResponseCache {
 
         FileCacheRequest request = new FileCacheRequest(cacheDir,uri.toString());
         FileCacheResponse response = new FileCacheResponse(request, conn);
-        CacheResponseFactory.saveFileCacheResponse(response,cacheDir,uri);
+        CacheResponseUtils.saveFileCacheResponse(response, cacheDir, uri);
 
         return request;
     }

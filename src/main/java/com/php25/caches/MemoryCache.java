@@ -8,6 +8,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by jack on 2014/8/30.
+ *
+ * http response 内存缓存
+ *
  */
 public class MemoryCache extends ResponseCache{
 
