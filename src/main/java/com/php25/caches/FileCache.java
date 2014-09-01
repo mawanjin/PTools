@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by jack on 2014/8/31.
+ *  http response 文件缓存，会根据http expires这个标识判断是否缓存过期，如果没有这个标识，则标识缓存永远不过期
  */
 public class FileCache extends ResponseCache {
     private  long cacheSize;//10m
@@ -25,20 +25,15 @@ public class FileCache extends ResponseCache {
 
     @Override
     public CacheResponse get(URI uri, String rqstMethod, Map<String, List<String>> rqstHeaders) throws IOException {
-        FileCacheRequest request = new FileCacheRequest(cacheDir,uri.getRawPath());
-        String headerPath = cacheDir+"/"+DigestUtils.md5(uri.getRawPath())+".0";
-        if(FileUtils.isFileExist(headerPath)) {
-            Map<String, List<String>> headers = ( Map<String, List<String>>)SerializeUtils.deserialization(headerPath);
-            FileCacheResponse response = new FileCacheResponse(request,headers);
-            if (response != null && response.isExpired()) { // check expiration date
-                FileUtils.deleteFile(cacheDir+"/"+DigestUtils.md5(uri.getRawPath())+".0");
-                FileUtils.deleteFile(cacheDir+"/"+DigestUtils.md5(uri.getRawPath())+".1");
-                response = null;
-            }
-            return response;
-        }else {
-            return null;
+        FileCacheRequest request = new FileCacheRequest(cacheDir,uri.toString());
+        FileCacheResponse response = CacheResponseFactory.getFileCacheResponse(request,cacheDir,uri);
+        if (null != response && response.isExpired()) { // check expiration date
+            FileUtils.deleteFile(cacheDir+"/"+DigestUtils.md5(uri.toString())+".0");
+            FileUtils.deleteFile(cacheDir+"/"+DigestUtils.md5(uri.toString())+".1");
+            response = null;
         }
+        return response;
+
     }
 
     @Override
@@ -49,12 +44,9 @@ public class FileCache extends ResponseCache {
             return null;
         }
 
-        FileCacheRequest request = new FileCacheRequest(cacheDir,uri.getRawPath());
+        FileCacheRequest request = new FileCacheRequest(cacheDir,uri.toString());
         FileCacheResponse response = new FileCacheResponse(request, conn);
-
-        //保存response header
-        String path = cacheDir+"/"+DigestUtils.md5(uri.getRawPath())+".0";
-        SerializeUtils.serialization(path,response.getHeaders());
+        CacheResponseFactory.saveFileCacheResponse(response,cacheDir,uri);
 
         return request;
     }

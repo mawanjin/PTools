@@ -42,7 +42,9 @@ public class FileCacheResponse extends CacheResponse {
     public FileCacheResponse(FileCacheRequest request, Map<String,List<String>> headers) {
         this.request = request;
         this.headers = Collections.unmodifiableMap(headers);
-        this.expires = new Date((String)headers.get("Expires").get(0));
+        if(headers.containsKey("Expires"))  {
+            this.expires = new Date((String)headers.get("Expires").get(0));
+        }
     }
 
 

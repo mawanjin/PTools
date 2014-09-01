@@ -15,10 +15,20 @@ public class HttpUtilsTest {
 
     @Test
     public void get() throws Exception{
-        ResponseCache.setDefault(new FileCache(10 * 1024 * 1024L, "C:/Users/jack/Desktop/cache"));
+        ResponseCache.setDefault(new FileCache(10 * 1024 * 1024L, "/Users/jack/Desktop/cache"));
 
-        HttpUtils.get("http://7.su.bdimg.com/icon/10062.png",null);
-        //HttpUtils.get("http://7.su.bdimg.com/icon/10062.png",null);
+//        HttpUtils.get("http://7.su.bdimg.com/icon/10062.png",null);
+//        HttpUtils.get("http://www.sina.com.cn",null);
+//        HttpUtils.get("http://www.baidu.com",null);
+        System.out.println(HttpUtils.get("http://programmer.csdn.net/",null));
+
+    }
+
+    @Test
+    public void post() throws Exception {
+        ResponseCache.setDefault(new FileCache(10 * 1024 * 1024L, "/Users/jack/Desktop/cache"));
+        //System.out.println(HttpUtils.post("http://www.sina.com",null));
+        System.out.println(HttpUtils.post("http://www.csdn.net/abc/",null));
     }
 
     @Test
