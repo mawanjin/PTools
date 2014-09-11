@@ -1,6 +1,9 @@
 package com.php25.tools;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -220,14 +223,34 @@ public class FileTool {
      * @return
      * @throws RuntimeException if an error occurs while operator FileOutputStream
      */
-    public static boolean copyFile(String sourceFilePath, String destFilePath) {
-        InputStream inputStream = null;
+    public static void copyFile(String sourceFilePath, String destFilePath) {
+        FileChannel in = null;
+        FileChannel out = null;
         try {
-            inputStream = new FileInputStream(sourceFilePath);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("FileNotFoundException occurred. ", e);
+            new FileInputStream(sourceFilePath).getChannel();
+            new FileOutputStream(destFilePath).getChannel();
+            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
+            while(in.read(byteBuffer) != -1) {
+                byteBuffer.flip();
+                out.write(byteBuffer);
+                byteBuffer.compact();
+            }
+            byteBuffer.flip();
+            while(byteBuffer.hasRemaining()) {
+                out.write(byteBuffer);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw  new RuntimeException(e);
+        } finally {
+            try {
+                in.close();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
         }
-        return writeFile(destFilePath, inputStream);
     }
 
     /**
